@@ -24,7 +24,7 @@ spark = SparkSession.builder \
 # COMMAND ----------
 
 #Question 1
-reviews = spark.read.csv("file:/Workspace/Repos/nrafferty@1904labs.com/hwe-labs/resources/reviews.tsv.gz", header="true", sep="\t")
+
 
 # COMMAND ----------
 
@@ -34,7 +34,7 @@ reviews = spark.read.csv("file:/Workspace/Repos/nrafferty@1904labs.com/hwe-labs/
 # COMMAND ----------
 
 #Question 2
-reviews.printSchema()
+
 
 # COMMAND ----------
 
@@ -45,8 +45,7 @@ reviews.printSchema()
 # COMMAND ----------
 
 #Question 3
-reviews_count = reviews.count()
-print(reviews_count)
+
 
 # COMMAND ----------
 
@@ -57,7 +56,7 @@ print(reviews_count)
 # COMMAND ----------
 
 #Question 4
-reviews.show(5, truncate=False)
+
 
 # COMMAND ----------
 
@@ -69,8 +68,7 @@ reviews.show(5, truncate=False)
 # COMMAND ----------
 
 #Question 5
-product_category = reviews.select("product_category")
-product_category.show(50)
+
 
 # COMMAND ----------
 
@@ -81,8 +79,7 @@ product_category.show(50)
 # COMMAND ----------
 
 #Question 6
-most_helpful_review = reviews.sort(desc("helpful_votes")).select("product_title", "helpful_votes").limit(1)
-most_helpful_review.show()
+
 
 # COMMAND ----------
 
@@ -92,8 +89,7 @@ most_helpful_review.show()
 # COMMAND ----------
 
 #Question 7
-five_star_reviews = reviews.filter(reviews.star_rating == "5").count()
-print(f"Number of five star reviews = {five_star_reviews}")
+
 
 # COMMAND ----------
 
@@ -105,8 +101,7 @@ print(f"Number of five star reviews = {five_star_reviews}")
 # COMMAND ----------
 
 #Question 8 
-int_columns = reviews.select(col("star_rating").cast('int'), col("helpful_votes").cast("int"), col("total_votes").cast("int"))
-int_columns.show(10)
+
 
 # COMMAND ----------
 
@@ -117,9 +112,7 @@ int_columns.show(10)
 # COMMAND ----------
 
 #Question 9
-purchase_date_and_count = reviews.groupBy("purchase_date").count().sort(desc("count"))
 
-purchase_date_and_count.show(n=1, truncate=False)
 
 
 # COMMAND ----------
@@ -132,8 +125,7 @@ purchase_date_and_count.show(n=1, truncate=False)
 # COMMAND ----------
 
 #Question 10
-with_review_timestamp = reviews.withColumn("review_timestamp", current_timestamp())
-with_review_timestamp.printSchema()
+
 
 # COMMAND ----------
 
@@ -145,9 +137,7 @@ with_review_timestamp.printSchema()
 
 #Question 11
 #S3 directory for that specific student. Setup on instructor's part to decide if these all go in a separate directory or how this is managed
-with_review_timestamp.write \
-   .mode("overwrite") \
-   .parquet("[s3path_for_student]/bronze/reviews_static/")
+
 
 # COMMAND ----------
 
@@ -160,10 +150,7 @@ with_review_timestamp.write \
 # COMMAND ----------
 
 #Question 12
-customers = spark.read.csv("resources/customers.tsv.gz", sep="\t", header=True)
-customers.write \
-    .mode("overwrite") \
-    .parquet("[s3path_for_student]/bronze/customers")
+
 
 # COMMAND ----------
 
